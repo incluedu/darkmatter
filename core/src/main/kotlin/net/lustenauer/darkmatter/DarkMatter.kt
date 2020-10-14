@@ -4,25 +4,23 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Application.LOG_DEBUG
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.utils.viewport.FitViewport
 import ktx.app.KtxGame
 import ktx.log.Logger
 import ktx.log.debug
 import ktx.log.logger
-import net.lustenauer.darkmatter.ecs.system.PlayerAnimationSystem
-import net.lustenauer.darkmatter.ecs.system.PlayerInputSystem
-import net.lustenauer.darkmatter.ecs.system.RenderSystem
+import net.lustenauer.darkmatter.ecs.system.*
 import net.lustenauer.darkmatter.screen.DarkMatterScreen
 import net.lustenauer.darkmatter.screen.FirstScreen
 import net.lustenauer.darkmatter.screen.GameScreen
 import net.lustenauer.darkmatter.screen.SecondScreen
 
 const val UNIT_SCALE = 1 / 16f
+const val V_WIDTH = 16
+const val V_HEIGHT = 9
 
 private val LOG: Logger = logger<DarkMatter>()
 
@@ -36,6 +34,7 @@ class DarkMatter : KtxGame<DarkMatterScreen>() {
     val engine: Engine by lazy {
         PooledEngine().apply {
             addSystem(PlayerInputSystem(gameViewport))
+            addSystem(MoveSystem())
             addSystem(
                     PlayerAnimationSystem(
                             graphicsAtlas.findRegion("ship_base"),
@@ -44,6 +43,7 @@ class DarkMatter : KtxGame<DarkMatterScreen>() {
                     )
             )
             addSystem(RenderSystem(batch, gameViewport))
+            addSystem(RemoveSystem())
         }
     }
 

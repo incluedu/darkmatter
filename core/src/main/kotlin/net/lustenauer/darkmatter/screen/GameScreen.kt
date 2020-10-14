@@ -7,10 +7,7 @@ import ktx.log.Logger
 import ktx.log.debug
 import ktx.log.logger
 import net.lustenauer.darkmatter.DarkMatter
-import net.lustenauer.darkmatter.ecs.component.FacingComponent
-import net.lustenauer.darkmatter.ecs.component.GraphicComponent
-import net.lustenauer.darkmatter.ecs.component.PlayerComponent
-import net.lustenauer.darkmatter.ecs.component.TransformComponent
+import net.lustenauer.darkmatter.ecs.component.*
 
 private val LOG: Logger = logger<GameScreen>()
 
@@ -22,29 +19,11 @@ class GameScreen(game: DarkMatter) : DarkMatterScreen(game) {
             with<TransformComponent>() {
                 position.set(4.5f, 8f, 0f)
             }
+            with<MoveComponent>()
             with<GraphicComponent>()
             with<PlayerComponent>()
             with<FacingComponent>()
         }
-
-        engine.entity {
-            with<TransformComponent>() {
-                position.set(1f,1f, 0f)
-            }
-            with<GraphicComponent>{
-                setSpriteRegion(game.graphicsAtlas.findRegion("ship_left"))
-            }
-        }
-
-        engine.entity {
-            with<TransformComponent>() {
-                position.set(7f,1f, 0f)
-            }
-            with<GraphicComponent>{
-                setSpriteRegion(game.graphicsAtlas.findRegion("ship_right"))
-            }
-        }
-
     }
 
     override fun render(delta: Float) {
