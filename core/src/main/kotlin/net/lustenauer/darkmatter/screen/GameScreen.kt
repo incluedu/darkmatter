@@ -1,8 +1,6 @@
 package net.lustenauer.darkmatter.screen
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import ktx.ashley.entity
 import ktx.ashley.with
 import ktx.log.Logger
@@ -22,17 +20,37 @@ class GameScreen(game: DarkMatter) : DarkMatterScreen(game) {
 
         engine.entity {
             with<TransformComponent>() {
-                position.set(MathUtils.random(0f, 9f), MathUtils.random(0f, 16f), 0f)
+                position.set(4.5f, 8f, 0f)
             }
             with<GraphicComponent>()
             with<PlayerComponent>()
             with<FacingComponent>()
         }
 
+        engine.entity {
+            with<TransformComponent>() {
+                position.set(1f,1f, 0f)
+            }
+            with<GraphicComponent>{
+                setSpriteRegion(game.graphicsAtlas.findRegion("ship_left"))
+            }
+        }
+
+        engine.entity {
+            with<TransformComponent>() {
+                position.set(7f,1f, 0f)
+            }
+            with<GraphicComponent>{
+                setSpriteRegion(game.graphicsAtlas.findRegion("ship_right"))
+            }
+        }
+
     }
 
     override fun render(delta: Float) {
+        (game.batch as SpriteBatch).renderCalls = 0
         engine.update(delta)
+        LOG.debug { "Rendercalls := ${(game.batch as SpriteBatch).renderCalls}" }
     }
 
 

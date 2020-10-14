@@ -33,6 +33,5 @@ class PlayerInputSystem(
             diffX > TOUCH_TOLERANCE_DISTANCE -> FacingDirection.RIGHT
             else -> FacingDirection.DEFAULT
         }
-
     }
 }
