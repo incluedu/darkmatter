@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.viewport.FitViewport
 import ktx.app.KtxGame
+import ktx.ashley.add
 import ktx.log.Logger
 import ktx.log.debug
 import ktx.log.logger
@@ -35,6 +36,7 @@ class DarkMatter : KtxGame<DarkMatterScreen>() {
         PooledEngine().apply {
             addSystem(PlayerInputSystem(gameViewport))
             addSystem(MoveSystem())
+            addSystem(DamageSystem())
             addSystem(
                     PlayerAnimationSystem(
                             graphicsAtlas.findRegion("ship_base"),
@@ -44,6 +46,7 @@ class DarkMatter : KtxGame<DarkMatterScreen>() {
             )
             addSystem(RenderSystem(batch, gameViewport))
             addSystem(RemoveSystem())
+            addSystem(DebugSystem())
         }
     }
 
