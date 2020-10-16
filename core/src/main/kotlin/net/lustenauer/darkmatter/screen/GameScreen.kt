@@ -8,8 +8,10 @@ import ktx.log.debug
 import ktx.log.logger
 import net.lustenauer.darkmatter.DarkMatter
 import net.lustenauer.darkmatter.ecs.component.*
+import kotlin.math.min
 
 private val LOG: Logger = logger<GameScreen>()
+private const val MAX_DELTA_TIME = 1 / 20f
 
 class GameScreen(game: DarkMatter) : DarkMatterScreen(game) {
     override fun show() {
@@ -28,7 +30,7 @@ class GameScreen(game: DarkMatter) : DarkMatterScreen(game) {
 
     override fun render(delta: Float) {
         (game.batch as SpriteBatch).renderCalls = 0
-        engine.update(delta)
+        engine.update(min(MAX_DELTA_TIME, delta))
         LOG.debug { "Rendercalls := ${(game.batch as SpriteBatch).renderCalls}" }
     }
 
