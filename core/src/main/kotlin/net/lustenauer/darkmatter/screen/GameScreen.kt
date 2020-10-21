@@ -7,7 +7,10 @@ import ktx.log.Logger
 import ktx.log.debug
 import ktx.log.logger
 import net.lustenauer.darkmatter.DarkMatter
+import net.lustenauer.darkmatter.V_HEIGHT
+import net.lustenauer.darkmatter.V_WIDTH
 import net.lustenauer.darkmatter.ecs.component.*
+import net.lustenauer.darkmatter.ecs.system.DAMAGE_AREA_HEIGHT
 import kotlin.math.min
 
 private val LOG: Logger = logger<GameScreen>()
@@ -25,6 +28,17 @@ class GameScreen(game: DarkMatter) : DarkMatterScreen(game) {
             with<GraphicComponent>()
             with<PlayerComponent>()
             with<FacingComponent>()
+        }
+
+        engine.entity {
+            with<TransformComponent> {
+                size.set(
+                        V_WIDTH.toFloat(),
+                        DAMAGE_AREA_HEIGHT
+                )
+            }
+            with<AnimationComponent> { type = AnimationType.DARK_MATTER }
+            with<GraphicComponent>()
         }
     }
 

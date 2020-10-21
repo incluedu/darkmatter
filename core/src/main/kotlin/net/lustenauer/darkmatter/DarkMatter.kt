@@ -20,13 +20,13 @@ import net.lustenauer.darkmatter.screen.GameScreen
 import net.lustenauer.darkmatter.screen.SecondScreen
 
 const val UNIT_SCALE = 1 / 16f
-const val V_WIDTH = 16
-const val V_HEIGHT = 9
+const val V_WIDTH = 9
+const val V_HEIGHT = 16
 
 private val LOG: Logger = logger<DarkMatter>()
 
 class DarkMatter : KtxGame<DarkMatterScreen>() {
-    val gameViewport = FitViewport(9f, 16f)
+    val gameViewport = FitViewport(V_WIDTH.toFloat(), V_HEIGHT.toFloat())
     val batch: Batch by lazy { SpriteBatch() }
 
     val graphicsAtlas by lazy { TextureAtlas(Gdx.files.internal("graphics/graphics.atlas")) }
@@ -44,6 +44,7 @@ class DarkMatter : KtxGame<DarkMatterScreen>() {
                             graphicsAtlas.findRegion("ship_right")
                     )
             )
+            addSystem(AnimationSystem(graphicsAtlas))
             addSystem(RenderSystem(batch, gameViewport))
             addSystem(RemoveSystem())
             addSystem(DebugSystem())
