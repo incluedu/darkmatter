@@ -7,6 +7,7 @@ import ktx.log.Logger
 import ktx.log.debug
 import ktx.log.logger
 import net.lustenauer.darkmatter.DarkMatter
+import net.lustenauer.darkmatter.UNIT_SCALE
 import net.lustenauer.darkmatter.V_HEIGHT
 import net.lustenauer.darkmatter.V_WIDTH
 import net.lustenauer.darkmatter.ecs.component.*
@@ -20,14 +21,24 @@ class GameScreen(game: DarkMatter) : DarkMatterScreen(game) {
     override fun show() {
         LOG.debug { "Game screen is shown" }
 
-        engine.entity {
+        val playerShip = engine.entity {
             with<TransformComponent>() {
-                position.set(4.5f, 8f, 0f)
+                position.set(4.5f, 8f, -1f)
             }
             with<MoveComponent>()
             with<GraphicComponent>()
             with<PlayerComponent>()
             with<FacingComponent>()
+        }
+
+        engine.entity {
+            with<TransformComponent>()
+            with<AttachComponent> {
+                entity = playerShip
+                offset.set(1f * UNIT_SCALE, -6f * UNIT_SCALE)
+            }
+            with<GraphicComponent>()
+            with<AnimationComponent> { type = AnimationType.FIRE }
         }
 
         engine.entity {
